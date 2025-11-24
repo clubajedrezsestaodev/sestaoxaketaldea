@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Ranking - Sestao Xake Taldea</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
+
+    <style>
+        body { font-family: 'Open Sans', sans-serif; }
+        h1, h2, h3, h4, h5, th { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
+        .bg-sestao { background-color: #007a33; color: white; }
+        .border-sestao { border-top: 4px solid #007a33; }
+        tr { transition: all 0.5s ease; }
+    </style>
+</head>
+<body class="bg-light">
+
+    <div style="min-height: 80px;">
+        <div x-data="{ menuHtml: '' }" x-init="menuHtml = await (await fetch('layout/header.html')).text()">
+            <div x-html="menuHtml"></div>
+        </div>
+    </div>
+
+    <div class="container py-5" x-data="adminRankingLogic()" x-init="cargarDatos()">
+        
+        <h2 class="mb-4 text-center">Administración de Ranking</h2>
+
+        <div class="card mb-4 shadow-sm border-sestao">
+            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="bi bi-pencil-square me-2"></i>Editor de Jugador</h5>
+                <button class="btn btn-sm btn-outline-light" @click="limpiarFormulario()">
+                    <i class="bi bi-plus-lg"></i> Nuevo Jugador
+                </button>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Nombre del Jugador</label>
+                        <input type="text" class="form-control" x-model="formulario.nombre" placeholder="Nombre Apellido">
+                        </div>
+
+                    <div class="col-md-2">
+                        <label class="form-label text-muted" x-text="'ELO ' + cabecera.mesAnterior"></label>
+                        <input type="number" class="form-control" x-model="formulario.eloAnterior">
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="form-label fw-bold text-success" x-text="'ELO ' + cabecera.mesActual"></label>
+                        <input type="number" class="form-control border-success" x-model="formulario.eloActual">
+                    </div>
+
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button class="btn btn-success w-100 fw-bold" @click="guardarCambios()">
+                            <i class="bi bi-save"></i> Guardar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow border-0">
+            <div class="card-body p-0">
+                <table class="table table-hover mb-0 align-middle">
+                    <thead class="bg-sestao">
+                        <tr>
+                            <th class="py-3 ps-4">Nº</th>
+                            <th class="py-3">Jugador/a</th>
+                            <th class="py-3" x-text="'ELO ' + cabecera.mesAnterior"></th>
+                            <th class="py-3" x-text="'ELO ' + cabecera.mesActual"></th>
+                            <th class="py-3 text-end">Variación</th>
+                            <th class="py-3 text-end pe-4">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template x-for="(jugador, index) in jugadores" :key="jugador.id">
+                            <tr>
+                                <th scope="row" class="ps-4" x-text="index + 1"></th>
+                                
+                                <td class="fw-bold text-dark" x-text="jugador.nombre"></td>
+                                <td class="text-muted" x-text="jugador.eloAnterior"></td>
+                                <td class="fw-bold" x-text="jugador.eloActual"></td>
+
+                                <td class="text-end" 
+                                    :class="{
+                                        'text-success': getVariacion(jugador) > 0,
+                                        'text-danger': getVariacion(jugador) < 0,
+                                        'text-muted': getVariacion(jugador) === 0
+                                    }">
+                                    <span class="fw-bold" x-text="(getVariacion(jugador) > 0 ? '+' : '') + getVariacion(jugador)"></span>
+                                </td>
+
+                                <td class="text-end pe-4">
+                                    <button class="btn btn-sm btn-outline-primary me-1" @click="editarJugador(jugador)">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger" @click="borrarJugador(index)">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div x-show="jugadores.length === 0" class="mt-4 text-center text-muted">
+            <p>Cargando datos...</p>
+        </div>
+
+    </div>
+
+    <script>
+        function adminRankingLogic() {
+            return {
+                // MODELO DE DATOS
+                cabecera: { mesAnterior: 'Mes Ant.', mesActual: 'Mes Act.' },
+                jugadores: [],
+                
+                formulario: {
+                    id: null, // Sigue existiendo aquí para el UPDATE
+                    nombre: '',
+                    eloAnterior: 0,
+                    eloActual: 0
+                },
+
+                // CARGA
+                async cargarDatos() {
+                    try {
+                        const response = await fetch('data/ranking.json');
+                        const datos = await response.json();
+                        
+                        if(datos.cabecera) this.cabecera = datos.cabecera;
+                        if(datos.jugadores) this.jugadores = datos.jugadores;
+
+                        this.ordenarRanking();
+
+                    } catch (error) {
+                        console.error("Error cargando JSON:", error);
+                        alert("Error cargando data/ranking.json. Revisa la consola (F12).");
+                    }
+                },
+
+                // HELPERS
+                getVariacion(jugador) {
+                    return Number(jugador.eloActual) - Number(jugador.eloAnterior);
+                },
+
+                ordenarRanking() {
+                    this.jugadores.sort((a, b) => Number(b.eloActual) - Number(a.eloActual));
+                },
+
+                // CRUD
+                editarJugador(jugador) {
+                    // Clonamos el objeto entero, incluyendo el ID
+                    this.formulario = JSON.parse(JSON.stringify(jugador));
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                },
+
+                limpiarFormulario() {
+                    this.formulario = { id: null, nombre: '', eloAnterior: 0, eloActual: 0 };
+                },
+
+                guardarCambios() {
+                    if (!this.formulario.nombre) return alert("El nombre es obligatorio");
+
+                    this.formulario.eloAnterior = Number(this.formulario.eloAnterior);
+                    this.formulario.eloActual = Number(this.formulario.eloActual);
+
+                    if (this.formulario.id) {
+                        // UPDATE (Usa el ID invisible)
+                        const index = this.jugadores.findIndex(j => j.id === this.formulario.id);
+                        if (index !== -1) this.jugadores[index] = this.formulario;
+                    } else {
+                        // INSERT (Genera nuevo ID)
+                        const nuevoId = this.jugadores.length > 0 
+                                        ? Math.max(...this.jugadores.map(j => j.id)) + 1 
+                                        : 1;
+                        this.formulario.id = nuevoId;
+                        this.jugadores.push(this.formulario);
+                    }
+
+                    this.ordenarRanking();
+                    
+                    this.limpiarFormulario();
+                    alert("Guardado (Memoria). El jugador se ha reordenado según su ELO.");
+                },
+
+                borrarJugador(index) {
+                    if(confirm("¿Eliminar jugador?")) {
+                        this.jugadores.splice(index, 1);
+                        this.ordenarRanking(); // Reordenamos tras borrar
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

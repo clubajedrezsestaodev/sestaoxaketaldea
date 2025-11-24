@@ -1,0 +1,33 @@
+{
+  "cabecera": {
+    "mesAnterior": "Octubre",
+    "mesActual": "Noviembre",
+    "anio": 2025
+  },
+  "jugadores": [
+    {
+      "id": 1,
+      "nombre": "GM Gabriel del Río",
+      "eloAnterior": 2485,
+      "eloActual": 2485
+    },
+    {
+      "id": 2,
+      "nombre": "IM Sergio Trigo",
+      "eloAnterior": 2386,
+      "eloActual": 2390
+    },
+    {
+      "id": 3,
+      "nombre": "FM Mario Galarza",
+      "eloAnterior": 2250,
+      "eloActual": 2248
+    },
+    {
+      "id": 4,
+      "nombre": "Enrique Tejedor",
+      "eloAnterior": 2100,
+      "eloActual": 2115
+    }
+  ]
+}

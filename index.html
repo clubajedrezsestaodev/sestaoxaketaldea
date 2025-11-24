@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sestao Xake Taldea - Prototipo</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <style>
+        :root {
+            --sestao-green: #007a33; /* Verde aproximado del logo */
+            --sestao-black: #1a1a1a;
+        }
+        
+        body { font-family: 'Open Sans', sans-serif; }
+        h1, h2, h3, h4, h5, .nav-link, .btn { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
+        
+        /* Color Sestao */
+        .text-sestao { color: var(--sestao-green); }
+        .bg-sestao { background-color: var(--sestao-green); color: white; }
+        .btn-sestao { background-color: var(--sestao-green); color: white; border: none; }
+        .btn-sestao:hover { background-color: #005f26; color: white; }
+        
+        /* Navbar Sticky */
+        .navbar { box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .nav-link.active { color: var(--sestao-green) !important; font-weight: bold; }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1529699211952-734e80c4d42b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0;
+        }
+
+        /* Tarjetas */
+        .card { border: none; border-bottom: 3px solid var(--sestao-green); transition: transform 0.3s; }
+        .card:hover { transform: translateY(-5px); }
+        
+        /* Tabla ELO */
+        .elo-up { color: green; font-weight: bold; }
+        .elo-down { color: red; font-weight: bold; }
+        .elo-equal { color: gray; }
+    </style>
+</head>
+<body>
+    <div x-data="{ menuHtml: '' }" 
+         x-init="menuHtml = await (await fetch('layout/header.html')).text()">
+        <div x-html="menuHtml"></div>
+    </div>
+
+    <header class="hero-section text-center">
+        <div class="container">
+            <h1 class="display-3 fw-bold mb-3">Historia y Pasión</h1>
+            <p class="lead mb-4">Club Campeón de España de Ajedrez. Formando grandes maestros desde Sestao.</p>
+            <a href="#escuela" class="btn btn-sestao btn-lg px-5 py-3">Únete a la Escuela</a>
+        </div>
+    </header>
+
+    <div id="open" class="bg-dark text-white py-3 text-center">
+        <div class="container d-md-flex justify-content-center align-items-center">
+            <span class="badge bg-danger me-3 mb-2 mb-md-0">PRÓXIMAMENTE</span>
+            <h5 class="mb-0 me-3" style="font-weight: normal;">40º Open Internacional de Sestao - Del 15 al 23 de Junio</h5>
+            <a href="#" class="btn btn-outline-light btn-sm ms-3 mt-2 mt-md-0">Ver Bases</a>
+        </div>
+    </div>
+
+    <section id="club" class="py-5">
+        <div class="container">
+            <div class="row align-items-center mb-5">
+                <div class="col-md-6">
+                    <h2 class="text-sestao mb-4">Nuestro Legado</h2>
+                    <p class="text-muted">Fundado con la misión de promover el ajedrez en la margen izquierda, el Sestao Xake Taldea se ha consolidado como uno de los referentes nacionales, alzándose con el título de <strong>Campeón de España por Equipos</strong> en múltiples ocasiones.</p>
+                    <p>Más allá de la competición de élite, somos una familia que acoge a jugadores de todos los niveles.</p>
+                    <a href="#" class="btn btn-outline-dark mt-2">Leer Historia Completa</a>
+                </div>
+                <div class="col-md-6 text-center mt-4 mt-md-0">
+                    <img src="https://images.unsplash.com/photo-1586165368502-1bad197a6461?auto=format&fit=crop&w=600&q=80" class="img-fluid rounded shadow" alt="Torneo Sestao">
+                </div>
+            </div>
+
+            <hr class="my-5">
+
+            <div id="escuela" class="row align-items-center flex-md-row-reverse">
+                <div class="col-md-6">
+                    <h2 class="text-sestao mb-4">Escuela de Ajedrez</h2>
+                    <p class="text-muted">El futuro del club está en los más jóvenes. Nuestra escuela ofrece formación para todas las edades:</p>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-sestao me-2"></i> Iniciación para niños desde 6 años.</li>
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-sestao me-2"></i> Tecnificación para jóvenes promesas.</li>
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-sestao me-2"></i> Clases para adultos.</li>
+                    </ul>
+                    <a href="#" class="btn btn-sestao mt-2">Horarios y Precios</a>
+                </div>
+                <div class="col-md-6 text-center mt-4 mt-md-0">
+                     <div class="bg-light d-flex align-items-center justify-content-center rounded border" style="height: 300px;">
+                        <span class="text-muted"><i class="bi bi-people-fill display-4"></i><br>Foto Escuela</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="noticias" class="bg-light py-5">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-end mb-4">
+                <h2 class="mb-0">Actualidad</h2>
+                <a href="#" class="text-sestao text-decoration-none fw-bold">Ver todas <i class="bi bi-arrow-right"></i></a>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1528819622765-d6bcf132f793?auto=format&fit=crop&w=500&q=60" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <small class="text-muted">20 Nov 2025</small>
+                            <h5 class="card-title mt-2">Gran actuación en el Cto. de Euskadi</h5>
+                            <p class="card-text text-muted">Nuestros juveniles consiguen tres podios en un fin de semana intenso...</p>
+                            <a href="#" class="stretched-link text-sestao text-decoration-none">Leer más</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="bg-secondary text-white d-flex align-items-center justify-content-center card-img-top" style="height: 200px;">
+                           <i class="bi bi-play-circle display-1"></i>
+                        </div>
+                        <div class="card-body">
+                            <small class="text-muted">18 Nov 2025 | Video</small>
+                            <h5 class="card-title mt-2">Resumen de la Ronda 4</h5>
+                            <p class="card-text text-muted">Análisis de la partida del GM Gabriel del Río en el tablero 1.</p>
+                            <a href="#" class="stretched-link text-sestao text-decoration-none">Ver en YouTube</a>
+                        </div>
+                    </div>
+                </div>
+                 <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1580541832626-2a7131ee809f?auto=format&fit=crop&w=500&q=60" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <small class="text-muted">15 Nov 2025</small>
+                            <h5 class="card-title mt-2">Cena de Navidad del Club</h5>
+                            <p class="card-text text-muted">Ya está abierto el plazo para apuntarse a la cena anual de socios.</p>
+                            <a href="#" class="stretched-link text-sestao text-decoration-none">Leer más</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="ranking" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">Ranking Socios (Noviembre)</h2>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="table-responsive shadow-sm border rounded">
+                        <table class="table table-hover mb-0">
+                            <thead class="bg-sestao text-white">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Jugador</th>
+                                    <th scope="col">ELO FIDE</th>
+                                    <th scope="col" class="text-end">Variación</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>GM Gabriel del Río</td>
+                                    <td>2485</td>
+                                    <td class="text-end elo-equal">= 0</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <td>IM Sergio Trigo</td>
+                                    <td>2390</td>
+                                    <td class="text-end elo-up">+ 4.2 <i class="bi bi-arrow-up-short"></i></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3</th>
+                                    <td>FM Mario Galarza</td>
+                                    <td>2250</td>
+                                    <td class="text-end elo-down">- 1.5 <i class="bi bi-arrow-down-short"></i></td>
+                                </tr>
+                                </tbody>
+                        </table>
+                    </div>
+                    <div class="text-center mt-3">
+                         <small class="text-muted">* Datos actualizados a 01/11/2025</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <h5 class="text-sestao">Sestao Xake Taldea</h5>
+                    <p class="small text-muted">Fomentando el ajedrez desde 1980.</p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5 class="text-white">Contacto</h5>
+                    <ul class="list-unstyled small text-muted">
+                        <li><i class="bi bi-geo-alt me-2"></i> Calle Principal, Sestao</li>
+                        <li><i class="bi bi-envelope me-2"></i> info@sestaoxake.com</li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5 class="text-white">Síguenos</h5>
+                    <a href="#" class="text-white me-3"><i class="bi bi-facebook fs-5"></i></a>
+                    <a href="#" class="text-white me-3"><i class="bi bi-instagram fs-5"></i></a>
+                    <a href="#" class="text-white"><i class="bi bi-youtube fs-5"></i></a>
+                </div>
+            </div>
+            <div class="text-center pt-3 border-top border-secondary mt-3">
+                <small class="text-muted">&copy; 2025 Sestao Xake Taldea. Todos los derechos reservados.</small>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

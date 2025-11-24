@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranking ELO - Sestao Xake Taldea</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <style>
+        /* Estilos base mínimos para que coincidan con el prototipo */
+        body { font-family: 'Open Sans', sans-serif; }
+        h1, h2, th { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
+        .bg-sestao { background-color: #007a33; color: white; }
+    </style>
+</head>
+<body class="bg-light">
+
+    <div x-data="{ menuHtml: '' }" 
+         x-init="menuHtml = await (await fetch('layout/header.html')).text()">
+        <div x-html="menuHtml"></div>
+    </div>
+
+
+    <div class="container py-5" x-data="rankingLogic()" x-init="cargarDatos()">
+        
+        <h2 class="mb-4 text-center">Ranking de Socios</h2>
+
+        <div class="card shadow border-0">
+            <div class="card-body p-0">
+                <table class="table table-hover mb-0 align-middle">
+                    <thead class="bg-sestao">
+                        <tr>
+                            <th class="py-3 ps-4">Nº</th>
+                            <th class="py-3">Jugador/a</th>
+                            <th class="py-3" x-text="'ELO ' + datos.cabecera.mesAnterior"></th>
+                            <th class="py-3" x-text="'ELO ' + datos.cabecera.mesActual"></th>
+                            <th class="py-3 text-end pe-4">Variación</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template x-for="(jugador, index) in datos.jugadores" :key="jugador.id">
+                            <tr>
+                                <th scope="row" class="ps-4" x-text="index + 1"></th>
+                                <td class="fw-bold text-dark" x-text="jugador.nombre"></td>
+                                <td class="text-muted" x-text="jugador.eloAnterior"></td>
+                                <td class="fw-bold" x-text="jugador.eloActual"></td>
+
+                                <td class="text-end pe-4" 
+                                    :class="{
+                                        'text-success': getVariacion(jugador) > 0,
+                                        'text-danger': getVariacion(jugador) < 0,
+                                        'text-muted': getVariacion(jugador) === 0
+                                    }">
+                                    
+                                    <span class="fw-bold" x-text="(getVariacion(jugador) > 0 ? '+' : '') + getVariacion(jugador)"></span>
+                                    
+                                    <i class="bi bi-arrow-up-short" x-show="getVariacion(jugador) > 0"></i>
+                                    <i class="bi bi-arrow-down-short" x-show="getVariacion(jugador) < 0"></i>
+                                    <i class="bi bi-dash" x-show="getVariacion(jugador) === 0"></i>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function rankingLogic() {
+            return {
+                datos: {
+                    cabecera: { mesAnterior: '', mesActual: '' },
+                    jugadores: []
+                },
+                async cargarDatos() {
+                    try {
+                        // Asegúrate de que ranking.json está en la carpeta 'data'
+                        const response = await fetch('data/ranking.json');
+                        this.datos = await response.json();
+                    } catch (error) {
+                        console.error("Error:", error);
+                    }
+                },
+                getVariacion(jugador) {
+                    // Nos aseguramos que sean números para evitar errores
+                    return Number(jugador.eloActual) - Number(jugador.eloAnterior);
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>
