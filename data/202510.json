@@ -15,6 +15,12 @@
       "nombre": "Rasmus Svane",
       "eloAnterior": 0,
       "eloActual": 2614
+    },
+    {
+      "id": 3,
+      "nombre": "Carlos Suárez García",
+      "eloAnterior": 0,
+      "eloActual": 2453
     }
   ]
 }
