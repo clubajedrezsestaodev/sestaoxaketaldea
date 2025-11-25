@@ -9,6 +9,12 @@
       "nombre": "Frederik Svane",
       "eloAnterior": 0,
       "eloActual": 2638
+    },
+    {
+      "id": 2,
+      "nombre": "Rasmus Svane",
+      "eloAnterior": 0,
+      "eloActual": 2614
     }
   ]
 }
