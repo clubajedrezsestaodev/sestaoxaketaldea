@@ -8,19 +8,25 @@
       "id": 1,
       "nombre": "Frederik Svane",
       "eloAnterior": 0,
-      "eloActual": 2638
+      "eloActual": 2638,
+      "categoria": "GM",
+      "federacion": "GER"
     },
     {
       "id": 2,
       "nombre": "Rasmus Svane",
       "eloAnterior": 0,
-      "eloActual": 2614
+      "eloActual": 2614,
+      "categoria": "GM",
+      "federacion": "GER"      
     },
     {
       "id": 3,
       "nombre": "Carlos Suárez García",
       "eloAnterior": 0,
-      "eloActual": 2453
+      "eloActual": 2453,
+      "categoria": "IM",
+      "federacion": "ESP"      
     }
   ]
 }
