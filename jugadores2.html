@@ -49,22 +49,25 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             width: 300px; 
-            height: fit-content; /* Ajusta la altura al contenido */
+            height: fit-content; 
+            padding: 0; /* Quitamos padding del card para controlarlo dentro del row */
         }
         .podium-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
         }
         
-        /* Contenedor de la foto: CLAVE para uniformidad */
+        /* Contenedor de la foto: CLAVE para uniformidad y estructura lateral */
         .podium-photo-box {
-            height: 200px; /* Altura fija */
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
-            background-size: cover; /* Escala la imagen para cubrir el contenedor */
-            background-position: center top; /* Centra la imagen, enfocando la cabeza */
+            height: 150px; /* Reducimos la altura para que ocupe menos verticalmente */
+            background-size: cover; 
+            background-position: center top; 
             background-repeat: no-repeat;
-            border-bottom: 1px solid #eee;
+            border-top-left-radius: 8px;
+            
+            /* Aseguramos que la foto se vea bien en el espacio asignado (4/12 de la tarjeta) */
+            width: 100%; 
+            border-right: 1px solid #eee;
         }
 
         /* Estilos para el Nº 1 */
@@ -77,6 +80,10 @@
             background-color: #f7d730;
             color: #333;
         }
+        .podium-card.rank-1 .podium-photo-box {
+             border-right-color: #f7d730;
+        }
+
 
         .podium-rank-icon {
             font-size: 1.5rem;
@@ -118,50 +125,68 @@
         
         <div class="podium-container">
             <div class="podium-card rank-2 shadow-lg">
-                <div class="card-header text-center fw-bold bg-secondary text-white">
+                <div class="card-header text-center fw-bold bg-secondary text-white py-2">
                     <span class="podium-rank-icon me-2">🥈</span> 2º Puesto
                 </div>
-                <div class="podium-photo-box" style="background-image: url('assets/cuenca.jpg');"></div>
-                <div class="card-body text-center">
-                    <h5 class="card-title fw-bold">GM JOSÉ F. CUENCA</h5>
-                    <p class="card-text small text-muted mb-1">
-                        <span class="fw-bold">ELO STD:</span> 2487
-                    </p>
-                    <p class="card-text small">
-                        <span class="fw-bold">Apertura favorita:</span> Defensa Philidor
-                    </p>
+                <div class="row g-0">
+                    <div class="col-4">
+                        <div class="podium-photo-box h-100" style="background-image: url('assets/cuenca.jpg');"></div>
+                    </div>
+                    <div class="col-8">
+                        <div class="p-2">
+                            <h6 class="card-title fw-bold mb-0 text-uppercase">GM JOSÉ F. CUENCA</h6>
+                            <p class="card-text small text-muted mb-0">
+                                <span class="fw-bold">ELO STD:</span> 2487
+                            </p>
+                            <p class="card-text small">
+                                <span class="fw-bold">Apodo:</span> Pepeich
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="podium-card rank-1 shadow-lg">
-                <div class="card-header text-center fw-bold">
+                <div class="card-header text-center fw-bold py-2">
                     <span class="podium-rank-icon me-2">🥇</span> 1º Puesto
                 </div>
-                <div class="podium-photo-box" style="background-image: url('assets/ibarra.jpg');"></div>
-                <div class="card-body text-center">
-                    <h5 class="card-title fw-bold">GM JOSÉ CARLOS IBARRA</h5>
-                    <p class="card-text small text-muted mb-1">
-                        <span class="fw-bold">ELO STD:</span> 2559
-                    </p>
-                    <p class="card-text small">
-                        <span class="fw-bold">Apertura favorita:</span> India Antigua
-                    </p>
+                <div class="row g-0">
+                    <div class="col-4">
+                        <div class="podium-photo-box h-100" style="background-image: url('assets/ibarra.jpg');"></div>
+                    </div>
+                    <div class="col-8">
+                        <div class="p-2">
+                            <h6 class="card-title fw-bold mb-0 text-uppercase">GM JOSÉ CARLOS IBARRA</h6>
+                            <p class="card-text small text-muted mb-0">
+                                <span class="fw-bold">ELO STD:</span> 2559
+                            </p>
+                            <p class="card-text small">
+                                <span class="fw-bold">Apodo:</span> GMSpiider
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
             
             <div class="podium-card rank-3 shadow-lg">
-                <div class="card-header text-center fw-bold bg-warning text-dark">
+                <div class="card-header text-center fw-bold bg-warning text-dark py-2">
                     <span class="podium-rank-icon me-2">🥉</span> 3º Puesto
                 </div>
-                <div class="podium-photo-box" style="background-image: url('assets/jugador_placeholder.jpg');"></div>
-                <div class="card-body text-center">
-                    <h5 class="card-title fw-bold">GM Gabriel del Río</h5>
-                    <p class="card-text small text-muted mb-1">
-                        <span class="fw-bold">ELO STD:</span> 2445
-                    </p>
-                    <p class="card-text small">
-                        <span class="fw-bold">Apertura favorita:</span> Ruy López
-                    </p>
+                <div class="row g-0">
+                    <div class="col-4">
+                        <div class="podium-photo-box h-100" style="background-image: url('assets/jugador_placeholder.jpg');"></div>
+                    </div>
+                    <div class="col-8">
+                        <div class="p-2">
+                            <h6 class="card-title fw-bold mb-0 text-uppercase">GM Gabriel del Río</h6>
+                            <p class="card-text small text-muted mb-0">
+                                <span class="fw-bold">ELO STD:</span> 2445
+                            </p>
+                            <p class="card-text small">
+                                <span class="fw-bold">Apertura:</span> Ruy López
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
