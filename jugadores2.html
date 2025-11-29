@@ -41,47 +41,65 @@
             align-items: flex-end; 
             gap: 1.5rem;
             margin-bottom: 3rem;
+            flex-wrap: wrap; 
         }
+        
         .podium-card {
             background: #fff;
             border: 1px solid #ddd;
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            
+            /* CLAVE: Altura y Ancho fijos */
             width: 300px; 
-            height: fit-content; 
-            padding: 0; /* Quitamos padding del card para controlarlo dentro del row */
+            height: 250px; 
+            overflow: hidden; /* Oculta cualquier cosa que se salga de la tarjeta */
+            
+            padding: 0; 
+            z-index: 10; 
         }
         .podium-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
         }
-        
-        /* Contenedor de la foto: CLAVE para uniformidad y estructura lateral */
-        .podium-photo-box {
-            height: 150px; /* Reducimos la altura para que ocupe menos verticalmente */
-            background-size: cover; 
-            background-position: center top; 
-            background-repeat: no-repeat;
-            border-top-left-radius: 8px;
-            
-            /* Aseguramos que la foto se vea bien en el espacio asignado (4/12 de la tarjeta) */
-            width: 100%; 
-            border-right: 1px solid #eee;
-        }
 
-        /* Estilos para el Nº 1 */
+        /* Estilos para el Nº 1: Eleva la tarjeta para el efecto Podium */
         .podium-card.rank-1 {
             transform: translateY(-20px); 
             border-color: #f7d730; 
             box-shadow: 0 0 0 5px rgba(247, 215, 48, 0.5); 
+            z-index: 20; 
         }
         .podium-card.rank-1 .card-header {
             background-color: #f7d730;
             color: #333;
         }
-        .podium-card.rank-1 .podium-photo-box {
-             border-right-color: #f7d730;
+
+        /* Contenedor de la foto: CLAVE para uniformidad (Background Image) */
+        .podium-photo-box {
+            height: 100%; /* Ocupa el 100% de la altura de la columna */
+            background-size: cover; 
+            background-position: center top; 
+            background-repeat: no-repeat;
+            border-top-left-radius: 8px;
+            width: 100%; 
+            border-right: 1px solid #eee;
+        }
+        
+        /* Contenedor de texto con control de líneas */
+        .podium-text-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+        /* CLAVE: Limitar el número de líneas para la descripción del jugador */
+        .podium-text-content .card-text.description {
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* Máximo 2 líneas de descripción */
+            -webkit-box-orient: vertical;
         }
 
 
@@ -98,6 +116,7 @@
             }
             .podium-card {
                 width: 90%; 
+                height: auto; /* Dejamos que el alto sea automático en móvil */
                 transform: none !important;
                 margin-bottom: 1rem;
             }
@@ -133,13 +152,13 @@
                         <div class="podium-photo-box h-100" style="background-image: url('assets/cuenca.jpg');"></div>
                     </div>
                     <div class="col-8">
-                        <div class="p-2">
+                        <div class="podium-text-content p-2">
                             <h6 class="card-title fw-bold mb-0 text-uppercase">GM JOSÉ F. CUENCA</h6>
                             <p class="card-text small text-muted mb-0">
                                 <span class="fw-bold">ELO STD:</span> 2487
                             </p>
-                            <p class="card-text small">
-                                <span class="fw-bold">Apodo:</span> Pepeich
+                            <p class="card-text small description">
+                                <span class="fw-bold">Comentario:</span> Veterano con gran experiencia en el tablero y repertorio sólido.
                             </p>
                         </div>
                     </div>
@@ -155,13 +174,13 @@
                         <div class="podium-photo-box h-100" style="background-image: url('assets/ibarra.jpg');"></div>
                     </div>
                     <div class="col-8">
-                        <div class="p-2">
+                        <div class="podium-text-content p-2">
                             <h6 class="card-title fw-bold mb-0 text-uppercase">GM JOSÉ CARLOS IBARRA</h6>
                             <p class="card-text small text-muted mb-0">
                                 <span class="fw-bold">ELO STD:</span> 2559
                             </p>
-                            <p class="card-text small">
-                                <span class="fw-bold">Apodo:</span> GMSpiider
+                            <p class="card-text small description">
+                                <span class="fw-bold">Comentario:</span> Máximo referente del club. Jugador de estilo agresivo y muy creativo.
                             </p>
                         </div>
                     </div>
@@ -177,13 +196,13 @@
                         <div class="podium-photo-box h-100" style="background-image: url('assets/jugador_placeholder.jpg');"></div>
                     </div>
                     <div class="col-8">
-                        <div class="p-2">
+                        <div class="podium-text-content p-2">
                             <h6 class="card-title fw-bold mb-0 text-uppercase">GM Gabriel del Río</h6>
                             <p class="card-text small text-muted mb-0">
                                 <span class="fw-bold">ELO STD:</span> 2445
                             </p>
-                            <p class="card-text small">
-                                <span class="fw-bold">Apertura:</span> Ruy López
+                            <p class="card-text small description">
+                                <span class="fw-bold">Comentario:</span> Un GM sólido con gran maestría en la fase final de la partida.
                             </p>
                         </div>
                     </div>
