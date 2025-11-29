@@ -17,15 +17,7 @@
         .text-sestao { color: #007a33; }
         .bg-sestao { background-color: #007a33; color: white; }
         
-        /* Estilos de la Tarjeta Destacada */
-        .card-featured { 
-            border: 2px solid #007a33; 
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            /* Usamos la clase de Alpine para el hover si es necesario: @mouseover="transform: translateY(-5px)" */
-        }
-        .featured-elo { font-size: 2.5rem; font-weight: 700; }
-        
-        /* Estilos de Títulos/Categorías (como en la web de referencia) */
+        /* Estilos de Títulos/Categorías */
         .title-badge {
             display: inline-block;
             padding: 0.25em 0.5em;
@@ -40,8 +32,28 @@
         .title-gm { background-color: #f7d730; color: #333; } /* Oro */
         .title-im { background-color: #c4c4c4; color: #333; } /* Plata */
         .title-fm { background-color: #cd7f32; color: white; } /* Bronce */
-        /* Categorías Regionales (Preferente, Primera, etc.) */
         .title-regional { background-color: #e9ecef; color: #495057; border: 1px solid #ced4da; }
+
+        /* Estilos específicos para Jugadores Destacados */
+        .player-featured {
+            display: flex;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e9ecef;
+            align-items: flex-start; /* Alineación vertical */
+        }
+        .player-photo {
+            width: 250px; /* Ancho fijo para la foto */
+            height: 250px;
+            margin-right: 2rem;
+            object-fit: cover;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .player-info h3 {
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+        }
     </style>
 </head>
 <body class="bg-light">
@@ -61,55 +73,41 @@
             </p>
         </header>
 
-        <h2 class="mb-4 border-bottom pb-2">Destacados del Club</h2>
-        <div class="row row-cols-1 row-cols-md-4 g-4 mb-5">
-            
-            <div class="col">
-                <div class="card card-featured h-100 text-center">
-                    <div class="card-body">
-                        <div class="title-badge title-gm mb-2">GM</div>
-                        <h5 class="card-title fw-bold">Javier Fernández</h5>
-                        <p class="card-text text-muted mb-1">Mejor ELO FIDE</p>
-                        <p class="featured-elo text-sestao">2650</p>
-                    </div>
-                </div>
+        <h2 class="mb-4 border-bottom pb-2">Grandes Maestros del Club</h2>
+        
+        <div class="player-featured">
+            <img src="assets/ibarra.jpg" alt="Foto de José Carlos Ibarra" class="player-photo">
+            <div class="player-info">
+                <h3 class="fw-bold">GM JOSÉ CARLOS IBARRA</h3>
+                <p>Apodo: GMSpiiderIbarra</p>
+                <p class="mb-1">
+                    <span class="fw-bold">ELO STD: </span> 2559 | 
+                    <span class="fw-bold">ELO RAPID: </span> 2541 | 
+                    <span class="fw-bold">ELO BLITZ: </span> 2600
+                </p>
+                <p class="mb-1"><span class="fw-bold">Ídolo ajedrecístico:</span> Garry Kasparov</p>
+                <p class="mb-3"><span class="fw-bold">Apertura favorita:</span> India Antigua</p>
+                <p class="text-muted">Único Gran Maestro murciano, rey del Blitz y un auténtico atracador de partidas, es de esos jugadores que parecen tenerlo todo siempre bajo control. [...] Ibarga juega como quien no tiene prisa pero sabe exactamente a dónde va. Y casi siempre, llega antes que tú.</p>
             </div>
-            
-            <div class="col">
-                <div class="card card-featured h-100 text-center">
-                    <div class="card-body">
-                        <div class="title-badge title-im mb-2">IM</div>
-                        <h5 class="card-title fw-bold">Ana Ruiz</h5>
-                        <p class="card-text text-muted mb-1">Máxima Categoría</p>
-                        <p class="featured-elo text-sestao">2480</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col">
-                <div class="card card-featured h-100 text-center">
-                    <div class="card-body">
-                        <div class="title-badge title-fm mb-2">FM</div>
-                        <h5 class="card-title fw-bold">Iñaki Goikoetxea</h5>
-                        <p class="card-text text-muted mb-1">Joven Promesa</p>
-                        <p class="featured-elo text-sestao">2320</p>
-                    </div>
-                </div>
-            </div>
+        </div>
 
-            <div class="col">
-                <div class="card card-featured h-100 text-center">
-                    <div class="card-body">
-                        <div class="title-badge title-regional mb-2">Preferente</div>
-                        <h5 class="card-title fw-bold">Miguel Herrero</h5>
-                        <p class="card-text text-muted mb-1">Jugador del Mes</p>
-                        <p class="featured-elo text-sestao">2100</p>
-                    </div>
-                </div>
+        <div class="player-featured">
+            <img src="assets/cuenca.jpg" alt="Foto de José Fernando Cuenca" class="player-photo">
+            <div class="player-info">
+                <h3 class="fw-bold">GM JOSÉ FERNANDO CUENCA</h3>
+                <p>Apodo: Pepeich</p>
+                <p class="mb-1">
+                    <span class="fw-bold">ELO STD: </span> 2487 | 
+                    <span class="fw-bold">ELO RAPID: </span> 2459 | 
+                    <span class="fw-bold">ELO BLITZ: </span> 2424
+                </p>
+                <p class="mb-1"><span class="fw-bold">Ídolo ajedrecístico:</span> Magnus Carlsen</p>
+                <p class="mb-3"><span class="fw-bold">Apertura favorita:</span> Defensa Philidor</p>
+                <p class="text-muted">Gran Maestro de la provincia de Málaga, conocido por su sólido juego posicional y su canal de divulgación ajedrecística.</p>
             </div>
         </div>
         
-        <h2 class="mb-4 border-bottom pb-2">Lista Completa</h2>
+        <h2 class="mb-4 border-bottom pb-2 mt-5">Lista Completa</h2>
 
         <div x-show="loading" class="text-center py-5">
             <div class="spinner-border text-sestao" role="status"></div>
@@ -126,34 +124,34 @@
                     <table class="table table-hover mb-0 align-middle">
                         <thead class="bg-sestao">
                             <tr>
-                                <th class="py-3 ps-4">Nº</th>
-                                <th class="py-3">Jugador/a</th>
-                                <th class="py-3">Título / Categoría</th>
-                                <th class="py-3" x-text="'ELO ' + datos.cabecera.mesAnterior"></th>
-                                <th class="py-3" x-text="'ELO ' + datos.cabecera.mesActual"></th>
-                                <th class="py-3">Federación</th>
-                                <th class="py-3 text-end pe-4">Variación</th>
+                                <th class="py-3 ps-4 text-start">Nº</th>
+                                <th class="py-3 text-start">Jugador/a</th>
+                                <th class="py-3 text-center">Título / Categoría</th>
+                                
+                                <th class="py-3 text-center" x-text="'ELO ' + datos.cabecera.mesActual"></th>
+                                <th class="py-3 text-center">Federación</th>
+                                <th class="py-3 text-center pe-4">Variación</th>
                             </tr>
                         </thead>
                         <tbody>
                             <template x-for="(jugador, index) in datos.jugadores" :key="jugador.id">
                                 <tr>
-                                    <th scope="row" class="ps-4" x-text="index + 1"></th>
-                                    <td class="fw-bold text-dark" x-text="jugador.nombre"></td>
+                                    <th scope="row" class="ps-4 text-start" x-text="index + 1"></th>
                                     
-                                    <td>
+                                    <td class="fw-bold text-dark text-start" x-text="jugador.nombre"></td>
+                                    
+                                    <td class="text-center">
                                         <span class="title-badge" 
                                               :class="getTitleBadgeClass(jugador.title, jugador.categoria)"
                                               x-text="displayTitle(jugador.title, jugador.categoria)">
                                         </span>
                                     </td>
                                     
-                                    <td class="text-muted" x-text="jugador.eloAnterior || '--'"></td>
-                                    <td class="fw-bold" x-text="jugador.eloActual || '--'"></td>
+                                    <td class="fw-bold text-center" x-text="jugador.eloActual || '--'"></td>
                                     
-                                    <td class="text-muted" x-text="jugador.federacion || '--'"></td>
+                                    <td class="text-muted text-center" x-text="jugador.federacion || '--'"></td>
 
-                                    <td class="text-end pe-4" 
+                                    <td class="text-center pe-4" 
                                         :class="{
                                             'text-success': getVariacion(jugador) > 0,
                                             'text-danger': getVariacion(jugador) < 0,
@@ -191,37 +189,30 @@
                 loading: true,
                 error: null,
 
-                // Lógica para encontrar el nombre del archivo de ranking más reciente (YYYYMM.json)
                 async findLatestRankingFile() {
                     const today = new Date();
                     let year = today.getFullYear();
                     let month = today.getMonth() + 1; // 1-12
                     
-                    // Comprobamos hasta 3 meses hacia atrás
                     for (let i = 0; i < 3; i++) {
                         const monthStr = String(month).padStart(2, '0');
                         const fileName = `${year}${monthStr}.json`;
-                        const filePath = `data/${fileName}`; // Asumimos que están en una carpeta 'data'
+                        const filePath = `data/${fileName}`;
                         
                         try {
                             const response = await fetch(filePath);
-                            
                             if (response.ok) {
-                                return filePath; // Devolvemos la ruta completa
+                                return filePath;
                             }
-                        } catch (e) {
-                            // En caso de error de red, continuamos
-                        }
+                        } catch (e) { }
                         
-                        // Decrementar mes y ajustar año
                         month--;
                         if (month === 0) {
                             month = 12;
                             year--;
                         }
                     }
-                    
-                    return null; // No se encontró ningún archivo
+                    return null;
                 },
 
                 async cargarDatos() {
@@ -237,31 +228,26 @@
                             return;
                         }
 
-                        // 1. Parsear la fecha del nombre del archivo para la cabecera
                         const match = latestFilePath.match(/(\d{4})(\d{2})\.json$/);
                         if (match) {
                             const currentMonth = new Date(match[1], parseInt(match[2]) - 1);
                             const prevMonth = new Date(currentMonth);
                             prevMonth.setMonth(prevMonth.getMonth() - 1);
 
-                            // Formato corto para la cabecera
                             this.datos.cabecera.mesActual = currentMonth.toLocaleDateString('es-ES', { month: 'short', year: 'numeric' });
                             this.datos.cabecera.mesAnterior = prevMonth.toLocaleDateString('es-ES', { month: 'short', year: 'numeric' });
                         }
                         
-                        // 2. Cargar los datos del archivo
                         const response = await fetch(latestFilePath);
                         if (!response.ok) {
                             throw new Error(`Error al obtener ${latestFilePath}. Estado: ${response.status}`);
                         }
                         
-                        const data = await response.json();
+                        const data = await response.json(); 
                         
-                        // Asumimos que el JSON sigue la estructura antigua {cabecera: {}, jugadores: []}
                         if (data.jugadores) {
                             this.datos.jugadores = data.jugadores;
                         } else {
-                            // Si el archivo solo contiene el array de jugadores
                             this.datos.jugadores = Array.isArray(data) ? data : [];
                             if(this.datos.jugadores.length === 0) {
                                 throw new Error('El archivo JSON no contiene jugadores.');
@@ -275,31 +261,23 @@
                     }
                 },
                 
-                // Calcula la variación de ELO
                 getVariacion(jugador) {
                     const actual = Number(jugador.eloActual);
                     const anterior = Number(jugador.eloAnterior);
-
-                    // Devolvemos 0 si algún valor no es válido para variación
                     if (isNaN(actual) || isNaN(anterior)) return 0;
-
                     return actual - anterior;
                 },
 
-                // Determina qué título mostrar (FIDE primero, luego Regional)
                 displayTitle(title, categoria) {
-                    // Priority: FIDE Title (GM, IM, FM, etc.)
                     if (title && title !== '-' && title.trim() !== '') {
                         return title.toUpperCase(); 
                     }
-                    // Secondary: Regional Category (Preferente, Primera, etc.)
                     if (categoria && categoria !== '--' && categoria.trim() !== '') {
                         return categoria.charAt(0).toUpperCase() + categoria.slice(1);
                     }
                     return '--';
                 },
 
-                // Determina la clase CSS para el badge (color)
                 getTitleBadgeClass(title, categoria) {
                     const normalizedTitle = (title || '').toUpperCase();
                     
@@ -307,12 +285,11 @@
                     if (normalizedTitle === 'IM') return 'title-im';
                     if (normalizedTitle === 'FM') return 'title-fm';
                     
-                    // Si no hay título FIDE, usamos la clase regional si hay categoría
                     if (categoria && categoria !== '--' && categoria.trim() !== '') {
                         return 'title-regional';
                     }
                     
-                    return 'title-regional'; // Clase por defecto
+                    return 'title-regional';
                 },
             }
         }
