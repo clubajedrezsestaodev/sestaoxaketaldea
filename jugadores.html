@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranking ELO - Sestao Xake Taldea</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
+
+    <style>
+        body { font-family: 'Open Sans', sans-serif; }
+        h1, h2, h3, h4, h5, th { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
+        .text-sestao { color: #007a33; }
+        .bg-sestao { background-color: #007a33; color: white; }
+        
+        /* Estilos de la Tarjeta Destacada */
+        .card-featured { 
+            border: 2px solid #007a33; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* Usamos la clase de Alpine para el hover si es necesario: @mouseover="transform: translateY(-5px)" */
+        }
+        .featured-elo { font-size: 2.5rem; font-weight: 700; }
+        
+        /* Estilos de Títulos/Categorías (como en la web de referencia) */
+        .title-badge {
+            display: inline-block;
+            padding: 0.25em 0.5em;
+            font-size: 0.75em;
+            font-weight: 700;
+            line-height: 1;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            border-radius: 0.25rem;
+        }
+        .title-gm { background-color: #f7d730; color: #333; } /* Oro */
+        .title-im { background-color: #c4c4c4; color: #333; } /* Plata */
+        .title-fm { background-color: #cd7f32; color: white; } /* Bronce */
+        /* Categorías Regionales (Preferente, Primera, etc.) */
+        .title-regional { background-color: #e9ecef; color: #495057; border: 1px solid #ced4da; }
+    </style>
+</head>
+<body class="bg-light">
+
+    <div x-data="{ menuHtml: '' }" 
+         x-init="menuHtml = await (await fetch('layout/header.html')).text()">
+        <div x-html="menuHtml"></div>
+    </div>
+
+
+    <div class="container py-5" x-data="rankingLogic()" x-init="cargarDatos()">
+        
+        <header class="mb-5 text-center">
+            <h1 class="display-4 fw-bold text-sestao">Ranking ELO Sestao Xake Taldea</h1>
+            <p class="lead text-muted">Ranking de Socios del club actualizado a 
+                <span x-text="datos.cabecera.mesActual || 'Cargando...'"></span>.
+            </p>
+        </header>
+
+        <h2 class="mb-4 border-bottom pb-2">Destacados del Club</h2>
+        <div class="row row-cols-1 row-cols-md-4 g-4 mb-5">
+            
+            <div class="col">
+                <div class="card card-featured h-100 text-center">
+                    <div class="card-body">
+                        <div class="title-badge title-gm mb-2">GM</div>
+                        <h5 class="card-title fw-bold">Javier Fernández</h5>
+                        <p class="card-text text-muted mb-1">Mejor ELO FIDE</p>
+                        <p class="featured-elo text-sestao">2650</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col">
+                <div class="card card-featured h-100 text-center">
+                    <div class="card-body">
+                        <div class="title-badge title-im mb-2">IM</div>
+                        <h5 class="card-title fw-bold">Ana Ruiz</h5>
+                        <p class="card-text text-muted mb-1">Máxima Categoría</p>
+                        <p class="featured-elo text-sestao">2480</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col">
+                <div class="card card-featured h-100 text-center">
+                    <div class="card-body">
+                        <div class="title-badge title-fm mb-2">FM</div>
+                        <h5 class="card-title fw-bold">Iñaki Goikoetxea</h5>
+                        <p class="card-text text-muted mb-1">Joven Promesa</p>
+                        <p class="featured-elo text-sestao">2320</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card card-featured h-100 text-center">
+                    <div class="card-body">
+                        <div class="title-badge title-regional mb-2">Preferente</div>
+                        <h5 class="card-title fw-bold">Miguel Herrero</h5>
+                        <p class="card-text text-muted mb-1">Jugador del Mes</p>
+                        <p class="featured-elo text-sestao">2100</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <h2 class="mb-4 border-bottom pb-2">Lista Completa</h2>
+
+        <div x-show="loading" class="text-center py-5">
+            <div class="spinner-border text-sestao" role="status"></div>
+            <p class="mt-2 text-muted">Cargando datos del ranking...</p>
+        </div>
+        
+        <div x-show="error" class="alert alert-danger text-center" role="alert">
+            <i class="bi bi-x-octagon-fill me-2"></i> Error: <span x-text="error"></span>
+        </div>
+
+        <div x-show="!loading && !error" class="card shadow border-0" x-cloak>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0 align-middle">
+                        <thead class="bg-sestao">
+                            <tr>
+                                <th class="py-3 ps-4">Nº</th>
+                                <th class="py-3">Jugador/a</th>
+                                <th class="py-3">Título / Categoría</th>
+                                <th class="py-3" x-text="'ELO ' + datos.cabecera.mesAnterior"></th>
+                                <th class="py-3" x-text="'ELO ' + datos.cabecera.mesActual"></th>
+                                <th class="py-3">Federación</th>
+                                <th class="py-3 text-end pe-4">Variación</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template x-for="(jugador, index) in datos.jugadores" :key="jugador.id">
+                                <tr>
+                                    <th scope="row" class="ps-4" x-text="index + 1"></th>
+                                    <td class="fw-bold text-dark" x-text="jugador.nombre"></td>
+                                    
+                                    <td>
+                                        <span class="title-badge" 
+                                              :class="getTitleBadgeClass(jugador.title, jugador.categoria)"
+                                              x-text="displayTitle(jugador.title, jugador.categoria)">
+                                        </span>
+                                    </td>
+                                    
+                                    <td class="text-muted" x-text="jugador.eloAnterior || '--'"></td>
+                                    <td class="fw-bold" x-text="jugador.eloActual || '--'"></td>
+                                    
+                                    <td class="text-muted" x-text="jugador.federacion || '--'"></td>
+
+                                    <td class="text-end pe-4" 
+                                        :class="{
+                                            'text-success': getVariacion(jugador) > 0,
+                                            'text-danger': getVariacion(jugador) < 0,
+                                            'text-muted': getVariacion(jugador) === 0
+                                        }">
+                                        
+                                        <span class="fw-bold" x-text="(getVariacion(jugador) > 0 ? '+' : '') + getVariacion(jugador)"></span>
+                                        
+                                        <i class="bi bi-arrow-up-short" x-show="getVariacion(jugador) > 0"></i>
+                                        <i class="bi bi-arrow-down-short" x-show="getVariacion(jugador) < 0"></i>
+                                        <i class="bi bi-dash" x-show="getVariacion(jugador) === 0"></i>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <div class="container">
+            <p class="mb-0">Sestao Xake Taldea &copy; <span x-text="new Date().getFullYear()"></span></p>
+        </div>
+    </footer>
+
+    <script>
+        function rankingLogic() {
+            return {
+                datos: {
+                    cabecera: { mesAnterior: 'Mes Anterior', mesActual: 'Mes Actual' },
+                    jugadores: []
+                },
+                loading: true,
+                error: null,
+
+                // Lógica para encontrar el nombre del archivo de ranking más reciente (YYYYMM.json)
+                async findLatestRankingFile() {
+                    const today = new Date();
+                    let year = today.getFullYear();
+                    let month = today.getMonth() + 1; // 1-12
+                    
+                    // Comprobamos hasta 3 meses hacia atrás
+                    for (let i = 0; i < 3; i++) {
+                        const monthStr = String(month).padStart(2, '0');
+                        const fileName = `${year}${monthStr}.json`;
+                        const filePath = `data/${fileName}`; // Asumimos que están en una carpeta 'data'
+                        
+                        try {
+                            const response = await fetch(filePath);
+                            
+                            if (response.ok) {
+                                return filePath; // Devolvemos la ruta completa
+                            }
+                        } catch (e) {
+                            // En caso de error de red, continuamos
+                        }
+                        
+                        // Decrementar mes y ajustar año
+                        month--;
+                        if (month === 0) {
+                            month = 12;
+                            year--;
+                        }
+                    }
+                    
+                    return null; // No se encontró ningún archivo
+                },
+
+                async cargarDatos() {
+                    this.loading = true;
+                    this.error = null;
+                    
+                    try {
+                        const latestFilePath = await this.findLatestRankingFile();
+                        
+                        if (!latestFilePath) {
+                            this.error = "No se encontró ningún archivo de ranking reciente (formato YYYYMM.json).";
+                            this.loading = false;
+                            return;
+                        }
+
+                        // 1. Parsear la fecha del nombre del archivo para la cabecera
+                        const match = latestFilePath.match(/(\d{4})(\d{2})\.json$/);
+                        if (match) {
+                            const currentMonth = new Date(match[1], parseInt(match[2]) - 1);
+                            const prevMonth = new Date(currentMonth);
+                            prevMonth.setMonth(prevMonth.getMonth() - 1);
+
+                            // Formato corto para la cabecera
+                            this.datos.cabecera.mesActual = currentMonth.toLocaleDateString('es-ES', { month: 'short', year: 'numeric' });
+                            this.datos.cabecera.mesAnterior = prevMonth.toLocaleDateString('es-ES', { month: 'short', year: 'numeric' });
+                        }
+                        
+                        // 2. Cargar los datos del archivo
+                        const response = await fetch(latestFilePath);
+                        if (!response.ok) {
+                            throw new Error(`Error al obtener ${latestFilePath}. Estado: ${response.status}`);
+                        }
+                        
+                        const data = await response.json();
+                        
+                        // Asumimos que el JSON sigue la estructura antigua {cabecera: {}, jugadores: []}
+                        if (data.jugadores) {
+                            this.datos.jugadores = data.jugadores;
+                        } else {
+                            // Si el archivo solo contiene el array de jugadores
+                            this.datos.jugadores = Array.isArray(data) ? data : [];
+                            if(this.datos.jugadores.length === 0) {
+                                throw new Error('El archivo JSON no contiene jugadores.');
+                            }
+                        }
+
+                    } catch (e) {
+                        this.error = e.message;
+                    } finally {
+                        this.loading = false;
+                    }
+                },
+                
+                // Calcula la variación de ELO
+                getVariacion(jugador) {
+                    const actual = Number(jugador.eloActual);
+                    const anterior = Number(jugador.eloAnterior);
+
+                    // Devolvemos 0 si algún valor no es válido para variación
+                    if (isNaN(actual) || isNaN(anterior)) return 0;
+
+                    return actual - anterior;
+                },
+
+                // Determina qué título mostrar (FIDE primero, luego Regional)
+                displayTitle(title, categoria) {
+                    // Priority: FIDE Title (GM, IM, FM, etc.)
+                    if (title && title !== '-' && title.trim() !== '') {
+                        return title.toUpperCase(); 
+                    }
+                    // Secondary: Regional Category (Preferente, Primera, etc.)
+                    if (categoria && categoria !== '--' && categoria.trim() !== '') {
+                        return categoria.charAt(0).toUpperCase() + categoria.slice(1);
+                    }
+                    return '--';
+                },
+
+                // Determina la clase CSS para el badge (color)
+                getTitleBadgeClass(title, categoria) {
+                    const normalizedTitle = (title || '').toUpperCase();
+                    
+                    if (normalizedTitle === 'GM') return 'title-gm';
+                    if (normalizedTitle === 'IM') return 'title-im';
+                    if (normalizedTitle === 'FM') return 'title-fm';
+                    
+                    // Si no hay título FIDE, usamos la clase regional si hay categoría
+                    if (categoria && categoria !== '--' && categoria.trim() !== '') {
+                        return 'title-regional';
+                    }
+                    
+                    return 'title-regional'; // Clase por defecto
+                },
+            }
+        }
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
