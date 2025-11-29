@@ -29,16 +29,16 @@
             vertical-align: middle;
             border-radius: 0.25rem;
         }
-        .title-gm { background-color: #f7d730; color: #333; } /* Oro */
-        .title-im { background-color: #c4c4c4; color: #333; } /* Plata */
-        .title-fm { background-color: #cd7f32; color: white; } /* Bronce */
+        .title-gm { background-color: #f7d730; color: #333; } 
+        .title-im { background-color: #c4c4c4; color: #333; } 
+        .title-fm { background-color: #cd7f32; color: white; } 
         .title-regional { background-color: #e9ecef; color: #495057; border: 1px solid #ced4da; }
 
         /* Estilos del PODIUM */
         .podium-container {
             display: flex;
             justify-content: center;
-            align-items: flex-end; /* Alinea las bases de las tarjetas */
+            align-items: flex-end; 
             gap: 1.5rem;
             margin-bottom: 3rem;
         }
@@ -48,30 +48,36 @@
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            width: 300px; /* Ancho fijo para las tarjetas del podium */
+            width: 300px; 
+            height: fit-content; /* Ajusta la altura al contenido */
         }
         .podium-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
         }
         
+        /* Contenedor de la foto: CLAVE para uniformidad */
+        .podium-photo-box {
+            height: 200px; /* Altura fija */
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            background-size: cover; /* Escala la imagen para cubrir el contenedor */
+            background-position: center top; /* Centra la imagen, enfocando la cabeza */
+            background-repeat: no-repeat;
+            border-bottom: 1px solid #eee;
+        }
+
         /* Estilos para el Nº 1 */
         .podium-card.rank-1 {
-            transform: translateY(-20px); /* Más alto que los otros */
-            border-color: #f7d730; /* Borde dorado */
-            box-shadow: 0 0 0 5px rgba(247, 215, 48, 0.5); /* Sombra dorada */
+            transform: translateY(-20px); 
+            border-color: #f7d730; 
+            box-shadow: 0 0 0 5px rgba(247, 215, 48, 0.5); 
         }
         .podium-card.rank-1 .card-header {
             background-color: #f7d730;
             color: #333;
         }
 
-        .podium-card .card-img-top {
-            height: 150px;
-            object-fit: cover;
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
-        }
         .podium-rank-icon {
             font-size: 1.5rem;
             line-height: 1;
@@ -84,7 +90,7 @@
                 align-items: center;
             }
             .podium-card {
-                width: 90%; /* Ancho en móvil */
+                width: 90%; 
                 transform: none !important;
                 margin-bottom: 1rem;
             }
@@ -115,7 +121,7 @@
                 <div class="card-header text-center fw-bold bg-secondary text-white">
                     <span class="podium-rank-icon me-2">🥈</span> 2º Puesto
                 </div>
-                <img src="assets/cuenca.jpg" alt="Foto de José Fernando Cuenca" class="card-img-top">
+                <div class="podium-photo-box" style="background-image: url('assets/cuenca.jpg');"></div>
                 <div class="card-body text-center">
                     <h5 class="card-title fw-bold">GM JOSÉ F. CUENCA</h5>
                     <p class="card-text small text-muted mb-1">
@@ -131,7 +137,7 @@
                 <div class="card-header text-center fw-bold">
                     <span class="podium-rank-icon me-2">🥇</span> 1º Puesto
                 </div>
-                <img src="assets/ibarra.jpg" alt="Foto de José Carlos Ibarra" class="card-img-top">
+                <div class="podium-photo-box" style="background-image: url('assets/ibarra.jpg');"></div>
                 <div class="card-body text-center">
                     <h5 class="card-title fw-bold">GM JOSÉ CARLOS IBARRA</h5>
                     <p class="card-text small text-muted mb-1">
@@ -147,7 +153,7 @@
                 <div class="card-header text-center fw-bold bg-warning text-dark">
                     <span class="podium-rank-icon me-2">🥉</span> 3º Puesto
                 </div>
-                <img src="assets/jugador_placeholder.jpg" alt="Foto de Jugador Placeholder" class="card-img-top">
+                <div class="podium-photo-box" style="background-image: url('assets/jugador_placeholder.jpg');"></div>
                 <div class="card-body text-center">
                     <h5 class="card-title fw-bold">GM Gabriel del Río</h5>
                     <p class="card-text small text-muted mb-1">
