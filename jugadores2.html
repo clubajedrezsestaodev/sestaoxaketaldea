@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranking ELO - Sestao Xake Taldea</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
+
+    <style>
+        body { font-family: 'Open Sans', sans-serif; }
+        h1, h2, h3, h4, h5, th { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
+        .text-sestao { color: #007a33; }
+        .bg-sestao { background-color: #007a33; color: white; }
+        
+        /* Estilos de Títulos/Categorías */
+        .title-badge {
+            display: inline-block;
+            padding: 0.25em 0.5em;
+            font-size: 0.75em;
+            font-weight: 700;
+            line-height: 1;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            border-radius: 0.25rem;
+        }
+        .title-gm { background-color: #f7d730; color: #333; } /* Oro */
+        .title-im { background-color: #c4c4c4; color: #333; } /* Plata */
+        .title-fm { background-color: #cd7f32; color: white; } /* Bronce */
+        .title-regional { background-color: #e9ecef; color: #495057; border: 1px solid #ced4da; }
+
+        /* Estilos del PODIUM */
+        .podium-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end; /* Alinea las bases de las tarjetas */
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        .podium-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            width: 300px; /* Ancho fijo para las tarjetas del podium */
+        }
+        .podium-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Estilos para el Nº 1 */
+        .podium-card.rank-1 {
+            transform: translateY(-20px); /* Más alto que los otros */
+            border-color: #f7d730; /* Borde dorado */
+            box-shadow: 0 0 0 5px rgba(247, 215, 48, 0.5); /* Sombra dorada */
+        }
+        .podium-card.rank-1 .card-header {
+            background-color: #f7d730;
+            color: #333;
+        }
+
+        .podium-card .card-img-top {
+            height: 150px;
+            object-fit: cover;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+        .podium-rank-icon {
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+
+        /* Responsive para pantallas pequeñas: apilar */
+        @media (max-width: 992px) {
+            .podium-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .podium-card {
+                width: 90%; /* Ancho en móvil */
+                transform: none !important;
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+    <div x-data="{ menuHtml: '' }" 
+         x-init="menuHtml = await (await fetch('layout/header.html')).text()">
+        <div x-html="menuHtml"></div>
+    </div>
+
+
+    <div class="container py-5" x-data="rankingLogic()" x-init="cargarDatos()">
+        
+        <header class="mb-5 text-center">
+            <h1 class="display-4 fw-bold text-sestao">Ranking ELO Sestao Xake Taldea</h1>
+            <p class="lead text-muted">Ranking de Socios del club actualizado a 
+                <span x-text="datos.cabecera.mesActual || 'Cargando...'"></span>.
+            </p>
+        </header>
+
+        <h2 class="mb-5 border-bottom pb-2">Podium ELO</h2>
+        
+        <div class="podium-container">
+            <div class="podium-card rank-2 shadow-lg">
+                <div class="card-header text-center fw-bold bg-secondary text-white">
+                    <span class="podium-rank-icon me-2">🥈</span> 2º Puesto
+                </div>
+                <img src="assets/cuenca.jpg" alt="Foto de José Fernando Cuenca" class="card-img-top">
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold">GM JOSÉ F. CUENCA</h5>
+                    <p class="card-text small text-muted mb-1">
+                        <span class="fw-bold">ELO STD:</span> 2487
+                    </p>
+                    <p class="card-text small">
+                        <span class="fw-bold">Apertura favorita:</span> Defensa Philidor
+                    </p>
+                </div>
+            </div>
+
+            <div class="podium-card rank-1 shadow-lg">
+                <div class="card-header text-center fw-bold">
+                    <span class="podium-rank-icon me-2">🥇</span> 1º Puesto
+                </div>
+                <img src="assets/ibarra.jpg" alt="Foto de José Carlos Ibarra" class="card-img-top">
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold">GM JOSÉ CARLOS IBARRA</h5>
+                    <p class="card-text small text-muted mb-1">
+                        <span class="fw-bold">ELO STD:</span> 2559
+                    </p>
+                    <p class="card-text small">
+                        <span class="fw-bold">Apertura favorita:</span> India Antigua
+                    </p>
+                </div>
+            </div>
+            
+            <div class="podium-card rank-3 shadow-lg">
+                <div class="card-header text-center fw-bold bg-warning text-dark">
+                    <span class="podium-rank-icon me-2">🥉</span> 3º Puesto
+                </div>
+                <img src="assets/jugador_placeholder.jpg" alt="Foto de Jugador Placeholder" class="card-img-top">
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold">GM Gabriel del Río</h5>
+                    <p class="card-text small text-muted mb-1">
+                        <span class="fw-bold">ELO STD:</span> 2445
+                    </p>
+                    <p class="card-text small">
+                        <span class="fw-bold">Apertura favorita:</span> Ruy López
+                    </p>
+                </div>
+            </div>
+
+        </div>
+        
+        <h2 class="mb-4 border-bottom pb-2 mt-5">Lista Completa</h2>
+
+        <div x-show="loading" class="text-center py-5">
+            <div class="spinner-border text-sestao" role="status"></div>
+            <p class="mt-2 text-muted">Cargando datos del ranking...</p>
+        </div>
+        
+        <div x-show="error" class="alert alert-danger text-center" role="alert">
+            <i class="bi bi-x-octagon-fill me-2"></i> Error: <span x-text="error"></span>
+        </div>
+
+        <div x-show="!loading && !error" class="card shadow border-0" x-cloak>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0 align-middle">
+                        <thead class="bg-sestao">
+                            <tr>
+                                <th class="py-3 ps-4 text-start">Nº</th>
+                                <th class="py-3 text-start">Jugador/a</th>
+                                <th class="py-3 text-center">Título / Categoría</th>
+                                
+                                <th class="py-3 text-center" x-text="'ELO ' + datos.cabecera.mesActual"></th>
+                                <th class="py-3 text-center">Federación</th>
+                                <th class="py-3 text-center pe-4">Variación</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template x-for="(jugador, index) in datos.jugadores" :key="jugador.id">
+                                <tr>
+                                    <th scope="row" class="ps-4 text-start" x-text="index + 1"></th>
+                                    
+                                    <td class="fw-bold text-dark text-start" x-text="jugador.nombre"></td>
+                                    
+                                    <td class="text-center">
+                                        <span class="title-badge" 
+                                              :class="getTitleBadgeClass(jugador.title, jugador.categoria)"
+                                              x-text="displayTitle(jugador.title, jugador.categoria)">
+                                        </span>
+                                    </td>
+                                    
+                                    <td class="fw-bold text-center" x-text="jugador.eloActual || '--'"></td>
+                                    
+                                    <td class="text-muted text-center" x-text="jugador.federacion || '--'"></td>
+
+                                    <td class="text-center pe-4" 
+                                        :class="{
+                                            'text-success': getVariacion(jugador) > 0,
+                                            'text-danger': getVariacion(jugador) < 0,
+                                            'text-muted': getVariacion(jugador) === 0
+                                        }">
+                                        
+                                        <span class="fw-bold" x-text="(getVariacion(jugador) > 0 ? '+' : '') + getVariacion(jugador)"></span>
+                                        
+                                        <i class="bi bi-arrow-up-short" x-show="getVariacion(jugador) > 0"></i>
+                                        <i class="bi bi-arrow-down-short" x-show="getVariacion(jugador) < 0"></i>
+                                        <i class="bi bi-dash" x-show="getVariacion(jugador) === 0"></i>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <div class="container">
+            <p class="mb-0">Sestao Xake Taldea &copy; <span x-text="new Date().getFullYear()"></span></p>
+        </div>
+    </footer>
+
+    <script>
+        function rankingLogic() {
+            return {
+                datos: {
+                    cabecera: { mesAnterior: 'Mes Anterior', mesActual: 'Mes Actual' },
+                    jugadores: []
+                },
+                loading: true,
+                error: null,
+
+                async findLatestRankingFile() {
+                    const today = new Date();
+                    let year = today.getFullYear();
+                    let month = today.getMonth() + 1; // 1-12
+                    
+                    for (let i = 0; i < 3; i++) {
+                        const monthStr = String(month).padStart(2, '0');
+                        const fileName = `${year}${monthStr}.json`;
+                        const filePath = `data/${fileName}`;
+                        
+                        try {
+                            const response = await fetch(filePath);
+                            if (response.ok) {
+                                return filePath;
+                            }
+                        } catch (e) { }
+                        
+                        month--;
+                        if (month === 0) {
+                            month = 12;
+                            year--;
+                        }
+                    }
+                    return null;
+                },
+
+                async cargarDatos() {
+                    this.loading = true;
+                    this.error = null;
+                    
+                    try {
+                        const latestFilePath = await this.findLatestRankingFile();
+                        
+                        if (!latestFilePath) {
+                            this.error = "No se encontró ningún archivo de ranking reciente (formato YYYYMM.json).";
+                            this.loading = false;
+                            return;
+                        }
+
+                        const match = latestFilePath.match(/(\d{4})(\d{2})\.json$/);
+                        if (match) {
+                            const currentMonth = new Date(match[1], parseInt(match[2]) - 1);
+                            const prevMonth = new Date(currentMonth);
+                            prevMonth.setMonth(prevMonth.getMonth() - 1);
+
+                            this.datos.cabecera.mesActual = currentMonth.toLocaleDateString('es-ES', { month: 'short', year: 'numeric' });
+                            this.datos.cabecera.mesAnterior = prevMonth.toLocaleDateString('es-ES', { month: 'short', year: 'numeric' });
+                        }
+                        
+                        const response = await fetch(latestFilePath);
+                        if (!response.ok) {
+                            throw new Error(`Error al obtener ${latestFilePath}. Estado: ${response.status}`);
+                        }
+                        
+                        const data = await response.json(); 
+                        
+                        if (data.jugadores) {
+                            this.datos.jugadores = data.jugadores;
+                        } else {
+                            this.datos.jugadores = Array.isArray(data) ? data : [];
+                            if(this.datos.jugadores.length === 0) {
+                                throw new Error('El archivo JSON no contiene jugadores.');
+                            }
+                        }
+
+                    } catch (e) {
+                        this.error = e.message;
+                    } finally {
+                        this.loading = false;
+                    }
+                },
+                
+                getVariacion(jugador) {
+                    const actual = Number(jugador.eloActual);
+                    const anterior = Number(jugador.eloAnterior);
+                    if (isNaN(actual) || isNaN(anterior)) return 0;
+                    return actual - anterior;
+                },
+
+                displayTitle(title, categoria) {
+                    if (title && title !== '-' && title.trim() !== '') {
+                        return title.toUpperCase(); 
+                    }
+                    if (categoria && categoria !== '--' && categoria.trim() !== '') {
+                        return categoria.charAt(0).toUpperCase() + categoria.slice(1);
+                    }
+                    return '--';
+                },
+
+                getTitleBadgeClass(title, categoria) {
+                    const normalizedTitle = (title || '').toUpperCase();
+                    
+                    if (normalizedTitle === 'GM') return 'title-gm';
+                    if (normalizedTitle === 'IM') return 'title-im';
+                    if (normalizedTitle === 'FM') return 'title-fm';
+                    
+                    if (categoria && categoria !== '--' && categoria.trim() !== '') {
+                        return 'title-regional';
+                    }
+                    
+                    return 'title-regional';
+                },
+            }
+        }
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
