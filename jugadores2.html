@@ -38,7 +38,6 @@
         .podium-container {
             display: flex;
             justify-content: center;
-            /* CLAVE: Alineamos al inicio (arriba) para que estén a la misma altura */
             align-items: flex-start; 
             gap: 1.5rem;
             margin-bottom: 3rem;
@@ -52,7 +51,6 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             
-            /* Altura y Ancho fijos */
             width: 300px; 
             height: 250px; 
             overflow: hidden; 
@@ -61,14 +59,11 @@
             z-index: 10; 
         }
         .podium-card:hover {
-            /* Mantenemos el pequeño efecto hover */
             transform: translateY(-5px);
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
         }
 
-        /* Estilos para el Nº 1: Eliminamos el 'transform' para que quede plano */
         .podium-card.rank-1 {
-            /* Solo mantenemos los estilos dorados */
             border-color: #f7d730; 
             box-shadow: 0 0 0 5px rgba(247, 215, 48, 0.5); 
             z-index: 20; 
@@ -78,7 +73,6 @@
             color: #333;
         }
 
-        /* Contenedor de la foto: CLAVE para uniformidad (Background Image) */
         .podium-photo-box {
             height: 100%; 
             background-size: cover; 
@@ -89,14 +83,12 @@
             border-right: 1px solid #eee;
         }
         
-        /* Contenedor de texto con control de líneas */
         .podium-text-content {
             height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
         }
-        /* CLAVE: Limitar el número de líneas para la descripción del jugador */
         .podium-text-content .card-text.description {
             overflow: hidden;
             display: -webkit-box;
@@ -353,14 +345,28 @@
                         
                         const data = await response.json(); 
                         
+                        let jugadores = [];
                         if (data.jugadores) {
-                            this.datos.jugadores = data.jugadores;
+                            jugadores = data.jugadores;
                         } else {
-                            this.datos.jugadores = Array.isArray(data) ? data : [];
-                            if(this.datos.jugadores.length === 0) {
+                            jugadores = Array.isArray(data) ? data : [];
+                            if(jugadores.length === 0) {
                                 throw new Error('El archivo JSON no contiene jugadores.');
                             }
                         }
+
+                        // === MODIFICACIÓN CLAVE: ORDENAR POR ELO ACTUAL DESCENDENTE ===
+                        jugadores.sort((a, b) => {
+                            // Convertir a número (o 0 si no es válido) para una ordenación numérica correcta
+                            const eloA = Number(a.eloActual) || 0;
+                            const eloB = Number(b.eloActual) || 0;
+                            
+                            // Orden descendente (de mayor a menor ELO)
+                            return eloB - eloA;
+                        });
+                        // =============================================================
+
+                        this.datos.jugadores = jugadores;
 
                     } catch (e) {
                         this.error = e.message;
@@ -390,8 +396,8 @@
                     const normalizedTitle = (title || '').toUpperCase();
                     
                     if (normalizedTitle === 'GM') return 'title-gm';
-                    if (normalizedTitle === 'MI') return 'title-im';
-                    if (normalizedTitle === 'MF') return 'title-fm';
+                    if (normalizedTitle === 'IM') return 'title-im';
+                    if (normalizedTitle === 'FM') return 'title-fm';
                     
                     if (categoria && categoria !== '--' && categoria.trim() !== '') {
                         return 'title-regional';
