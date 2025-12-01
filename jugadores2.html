@@ -242,8 +242,8 @@
                                     
                                     <td class="text-center">
                                         <span class="title-badge" 
-                                              :class="getTitleBadgeClass(jugador.title, jugador.categoria)"
-                                              x-text="displayTitle(jugador.title, jugador.categoria)">
+                                              :class="getTitleBadgeClass(jugador.categoria)"
+                                              x-text="jugador.categoria">
                                         </span>
                                     </td>
                                     
@@ -392,12 +392,10 @@
                     return '--';
                 },
 
-                getTitleBadgeClass(title, categoria) {
-                    const normalizedTitle = (title || '').toUpperCase();
-                    
-                    if (normalizedTitle === 'GM') return 'title-gm';
-                    if (normalizedTitle === 'IM') return 'title-im';
-                    if (normalizedTitle === 'FM') return 'title-fm';
+                getTitleBadgeClass(categoria) {                
+                    if (categoria === 'GM') return 'title-gm';
+                    if (categoria === 'IM') return 'title-im';
+                    if (categoria === 'FM') return 'title-fm';
                     
                     return 'title-regional';
                 },
