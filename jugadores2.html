@@ -29,9 +29,9 @@
             vertical-align: middle;
             border-radius: 0.25rem;
         }
-        .title-gm { background-color: #f7d730; color: #333; } 
-        .title-im { background-color: #c4c4c4; color: #333; } 
-        .title-fm { background-color: #cd7f32; color: white; } 
+        .title-gm { background-color: #f7d730; color: #333; border: 1px solid #ced4da; } 
+        .title-im { background-color: #c4c4c4; color: #333; border: 1px solid #ced4da; } 
+        .title-fm { background-color: #cd7f32; color: white; border: 1px solid #ced4da; } 
         .title-regional { color: #495057; }
 
         /* Estilos del PODIUM */
@@ -398,10 +398,6 @@
                     if (normalizedTitle === 'GM') return 'title-gm';
                     if (normalizedTitle === 'IM') return 'title-im';
                     if (normalizedTitle === 'FM') return 'title-fm';
-                    
-                    if (categoria && categoria !== '--' && categoria.trim() !== '') {
-                        return 'title-regional';
-                    }
                     
                     return 'title-regional';
                 },
