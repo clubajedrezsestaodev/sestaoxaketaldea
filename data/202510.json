@@ -25,7 +25,239 @@
       "nombre": "Carlos Suárez García",
       "eloAnterior": 0,
       "eloActual": 2453,
+      "categoria": "MI",
+      "federacion": "ESP"      
+    },
+    {
+      "id": 4,
+      "nombre": "Gabriel del Río de Angelis",
+      "eloAnterior": 0,
+      "eloActual": 2412,
+      "categoria": "GM",
+      "federacion": "ESP"      
+    },
+    {
+      "id": 5,
+      "nombre": "Karina Ambartsumova",
+      "eloAnterior": 0,
+      "eloActual": 2385,
+      "categoria": "MI",
+      "federacion": "RUS"      
+    },
+    {
+      "id": 6,
+      "nombre": "Juan Mario Gómez Esteban",
+      "eloAnterior": 0,
+      "eloActual": 2368,
+      "categoria": "GM",
+      "federacion": "ESP"      
+    },
+    {
+      "id": 7,
+      "nombre": "David Martínez López",
+      "eloAnterior": 0,
+      "eloActual": 2363,
+      "categoria": "MF",
+      "federacion": "ESP"      
+    },
+    {
+      "id": 8,
+      "nombre": "Sergio Trigo Urquijo",
+      "eloAnterior": 0,
+      "eloActual": 2348,
+      "categoria": "MF",
+      "federacion": "ESP"      
+    },
+    {
+      "id": 9,
+      "nombre": "Marcos Llaneza Vega",
+      "eloAnterior": 0,
+      "eloActual": 2345,
+      "categoria": "MI",
+      "federacion": "ESP"      
+    },
+    {
+      "id": 10,
+      "nombre": "Unai Calleja González",
+      "eloAnterior": 0,
+      "eloActual": 2076,
+      "categoria": "Preferente",
+      "federacion": "ESP"      
+    },
+    {
+      "id": 11,
+      "nombre": "Juan Viqueira Fernández",
+      "eloAnterior": 0,
+      "eloActual": 2051,
+      "categoria": "Preferente",
+      "federacion": "ESP"      
+    },
+    {
+      "id": 12,
+      "nombre": "Ibai Garigorta Martínez",
+      "eloAnterior": 0,
+      "eloActual": 2012,
+      "categoria": "Preferente",
+      "federacion": "ESP"      
+    },
+    {
+      "id": 13,
+      "nombre": "Iván Suárez García",
+      "eloAnterior": 0,
+      "eloActual": 1991,
+      "categoria": "Primera",
+      "federacion": "ESP"      
+    },
+    {
+      "id": 14,
+      "nombre": "Joseba García Ortega",
+      "eloAnterior": 0,
+      "eloActual": 1982,
+      "categoria": "Preferente",
+      "federacion": "ESP"      
+    },
+    {
+      "id": 15,
+      "nombre": "Manuel Peralta",
+      "eloAnterior": 0,
+      "eloActual": 1928,
+      "categoria": "Preferente",
+      "federacion": "ESP"      
+    },
+    {
+      "id": 16,
+      "nombre": "Jon Ander Santas Martín",
+      "eloAnterior": 0,
+      "eloActual": 1848,
+      "categoria": "Primera",
+      "federacion": "ESP"      
+    },
+    {
+      "id": 17,
+      "nombre": "Iñigo Oriza de Castro",
+      "eloAnterior": 0,
+      "eloActual": 1840,
+      "categoria": "Primera",
+      "federacion": "ESP"      
+    },
+    {
+      "id": 18,
+      "nombre": "Neo Fernández Cortés",
+      "eloAnterior": 0,
+      "eloActual": 1739,
+      "categoria": "Tercera",
+      "federacion": "ESP"      
+    },
+    {
+      "id": 19,
+      "nombre": "Daniel Gómez Vales",
+      "eloAnterior": 0,
+      "eloActual": 1722,
+      "categoria": "Primera",
+      "federacion": "ESP"      
+    },
+    {
+      "id": 20,
+      "nombre": "Aitor González Rodríguez",
+      "eloAnterior": 0,
+      "eloActual": 1716,
+      "categoria": "Primera",
+      "federacion": "ESP"      
+    },
+    {
+      "id": 21,
+      "nombre": "Andrei Zárate Ivchenko",
+      "eloAnterior": 0,
+      "eloActual": 1662,
+      "categoria": "Segunda",
+      "federacion": "ESP"      
+    },
+    {
+      "id": 22,
+      "nombre": "Irene García Bolaños",
+      "eloAnterior": 0,
+      "eloActual": 1691,
       "categoria": "IM",
+      "federacion": "ESP"      
+    },
+    {
+      "id": 23,
+      "nombre": "Iván López Cabanas",
+      "eloAnterior": 0,
+      "eloActual": 1678,
+      "categoria": "Segunda",
+      "federacion": "ESP"      
+    },
+    {
+      "id": 24,
+      "nombre": "Erik Pose Segura",
+      "eloAnterior": 0,
+      "eloActual": 1659,
+      "categoria": "Tercera",
+      "federacion": "ESP"      
+    },
+    {
+      "id": 25,
+      "nombre": "Oriana Caycedo Pelaez",
+      "eloAnterior": 0,
+      "eloActual": 1625,
+      "categoria": "Segunda",
+      "federacion": "ESP"      
+    },
+    {
+      "id": 26,
+      "nombre": "Juan Pablo González Anuncibay",
+      "eloAnterior": 0,
+      "eloActual": 1596,
+      "categoria": "Segunda",
+      "federacion": "ESP"      
+    },
+    {
+      "id": 27,
+      "nombre": "Asier Vázquez Aveleira",
+      "eloAnterior": 0,
+      "eloActual": 1607,
+      "categoria": "Primera",
+      "federacion": "ESP"      
+    },
+    {
+      "id": 28,
+      "nombre": "David Ocio Fernández",
+      "eloAnterior": 0,
+      "eloActual": 1617,
+      "categoria": "Tercera",
+      "federacion": "ESP"      
+    },
+    {
+      "id": 29,
+      "nombre": "Markel Fernández Menéndez",
+      "eloAnterior": 0,
+      "eloActual": 1595,
+      "categoria": "Tercera",
+      "federacion": "ESP"      
+    },
+    {
+      "id": 30,
+      "nombre": "Ibón Pesquera López",
+      "eloAnterior": 0,
+      "eloActual": 1551,
+      "categoria": "Tercera",
+      "federacion": "ESP"      
+    },
+    {
+      "id": 31,
+      "nombre": "Ismael Redero Calderón",
+      "eloAnterior": 0,
+      "eloActual": 1509,
+      "categoria": "Tercera",
+      "federacion": "ESP"      
+    },
+    {
+      "id": 32,
+      "nombre": "Azahara Redero Calderón",
+      "eloAnterior": 0,
+      "eloActual": 1491,
+      "categoria": "Tercera",
       "federacion": "ESP"      
     }
   ]
